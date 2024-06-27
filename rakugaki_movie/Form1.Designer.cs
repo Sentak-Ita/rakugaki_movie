@@ -44,7 +44,6 @@
             webView2.TabIndex = 0;
             webView2.ZoomFactor = 1D;
             webView2.NavigationCompleted += webView2_NavigationCompleted;
-            webView2.KeyDown += webView2_KeyDown;
             // 
             // Form1
             // 
@@ -58,7 +57,7 @@
             Text = "rakugaki_movie";
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
-            Resize += Form1_ResizeAsync;
+            ResizeEnd += Form1_ResizeEnd;
             ((System.ComponentModel.ISupportInitialize)webView2).EndInit();
             ResumeLayout(false);
         }

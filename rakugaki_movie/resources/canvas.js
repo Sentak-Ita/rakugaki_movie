@@ -99,6 +99,9 @@ monitoring_button.addEventListener("click", function () {
 }, false);
 
 fullscreen_button.addEventListener("click", function () {
+    window_width.disabled = fullscreen_button.checked;
+    window_height.disabled = fullscreen_button.checked;
+
     window.chrome.webview.postMessage(fullscreen_button.checked ? "fullscreen_on" : "fullscreen_off");
 }, false);
 

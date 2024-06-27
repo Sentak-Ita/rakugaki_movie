@@ -309,6 +309,11 @@ namespace WinFormsApp1
                     break;
 
                 case "window_size_change":
+                    if (isMaximized == true)
+                    {
+                        return;
+                    }
+
                     this.Width = int.Parse(command[1]);
                     this.Height = int.Parse(command[2]);
                     break;
@@ -485,6 +490,11 @@ namespace WinFormsApp1
             this.FormBorderStyle = FormBorderStyle.Sizable;
 
             isMaximized = false;
+
+            if (isWindowFixed == true)
+            {
+                this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            }
         }
 
 
@@ -493,9 +503,14 @@ namespace WinFormsApp1
         /// </summary>
         private void WindowFixOn()
         {
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-
             isWindowFixed = true;
+
+            if (isMaximized == true)
+            {
+                return;
+            }
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         /// <summary>
@@ -503,36 +518,14 @@ namespace WinFormsApp1
         /// </summary>
         private void WindowFixOff()
         {
-            this.FormBorderStyle = FormBorderStyle.Sizable;
-
             isWindowFixed = false;
-        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private async void ToggleFullScreenAsync()
-        {
-            await webView2.ExecuteScriptAsync($"fullscreen_button.click();");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender">イベントソース</param>
-        /// <param name="e">イベントデータ</param>
-        private void webView2_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
+            if (isMaximized == true)
             {
-                case Keys.F11:
-                    ToggleFullScreenAsync();
-                    break;
-
-                case Keys.Escape:
-                    if (isMaximized == true) ToggleFullScreenAsync();
-                    break;
+                return;
             }
+
+            this.FormBorderStyle = FormBorderStyle.Sizable;
         }
 
         /// <summary>
@@ -564,9 +557,10 @@ namespace WinFormsApp1
             Setting.Save();
         }
 
-        private async void Form1_ResizeAsync(object sender, EventArgs e)
+
+        private async void Form1_ResizeEnd(object sender, EventArgs e)
         {
-            if(isFirstLoad == true)
+            if (isFirstLoad == true)
             {
                 return;
             }

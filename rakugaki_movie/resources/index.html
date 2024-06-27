@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline';" />
+
+    <title>Dialog</title>
+
+    <link rel="stylesheet" type="text/css" href="./canvas.css" />
+    <link rel="stylesheet" type="text/css" href="./fontawesome-free-6.3.0-web/css/all.min.css" />
+
+    <script src="./canvas.js" defer></script>
+</head>
+
+<body>
+    <div class="video_canvas">
+        <div>
+            <video autoplay></video>
+            <svg xmlns="http://www.w3.org/2000/svg" draggable="false"></svg>
+        </div>
+
+        <label id="option">
+            <label class="option-item">
+                監視
+                <input id="monirotring_folder" readonly>
+                <button id="monirotring_folder_reference">参照</button>
+            </label>
+            <label class="option-item">
+                画面サイズ
+                <span class="flex_adjuster"></span>
+                <input id="window_width" maxlength="5" />
+                x
+                <input id="window_height" maxlength="5" />
+                <button id="window_size_change">適用</button>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="play_button_show" name="play_button_show" class="toggle link" checked />
+                再生／停止
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="volume_button_show" name="volume_button_show" class="toggle link" checked />
+                音量
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="loop_button_show" name="loop_button_show" class="toggle link" checked />
+                繰り返し
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="speed_button_show" name="speed_button_show" class="toggle link" checked />
+                スロー
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="monitoring_button_show" name="monitoring_button_show" class="toggle link" checked />
+                自動更新
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="pen_color_show" name="pen_color_show" class="toggle link" checked />
+                ペン
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="window_fix_button_show" name="window_fix_button_show" class="toggle link" checked />
+                画面サイズ固定
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="fullscreen_button_show" name="fullscreen_button_show" class="toggle link" checked />
+                フルスクリーン
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+        </label>
+    </div>
+
+    <div id="control">
+        <label class="control_icon">
+            <input type="checkbox" id="play_button" class="toggle" />
+            <input type="checkbox" name="play_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-play off"></i>
+            <i class="fa-duotone fa-solid fa-pause on"></i>
+        </label>
+
+        <input type="range" value="0" disabled>
+
+        <label class="control_icon volume_area">
+            <input type="checkbox" id="volume_button" class="toggle" />
+            <input type="checkbox" name="volume_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-volume-xmark off"></i>
+            <i class="fa-duotone fa-solid fa-volume-high on"></i>
+
+            <input type="range" id="volume_range" class="volume" value="0" min="0" max="100" disabled>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="loop_button" class="toggle" />
+            <input type="checkbox" name="loop_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-rotate off" style="color: gray;"></i>
+            <i class="fa-duotone fa-solid fa-rotate on"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="speed_button" class="toggle" />
+            <input type="checkbox" name="speed_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-person-running off"></i>
+            <i class="fa-duotone fa-solid fa-person-walking on"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="monitoring_button" class="toggle" />
+            <input type="checkbox" name="monitoring_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-eye-slash off"></i>
+            <i class="fa-duotone fa-solid fa-eye on"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="pen_color_button" class="toggle" />
+            <input type="checkbox" name="pen_color_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-pen pen-frame"></i>
+            <i class="fa-duotone fa-solid fa-pen pen-color"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="window_fix_button" class="toggle" />
+            <input type="checkbox" name="window_fix_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-lock-open off"></i>
+            <i class="fa-duotone fa-solid fa-lock on"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="fullscreen_button" class="toggle" />
+            <input type="checkbox" name="fullscreen_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-expand off"></i>
+            <i class="fa-duotone fa-solid fa-compress on"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="option_button" class="toggle" />
+            <i class="fa-duotone fa-solid fa-gear"></i>
+        </label>
+    </div>
+</body>
+
+</html>

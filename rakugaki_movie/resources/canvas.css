@@ -1,0 +1,218 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-x: hidden;
+    background-color: black;
+}
+
+.video_canvas {
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+}
+
+.video_canvas div {
+    height: 100%;
+    width:fit-content;
+    left: 50%;
+    transform: translate(-50%);
+    position: absolute;
+}
+
+.video_canvas video {
+    z-index: 2;
+    height: 100%;
+    vertical-align: bottom;
+    --times: var(--time);
+}
+
+.video_canvas svg {
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+video:not([running]) + svg path {
+    animation-play-state: paused;
+}
+
+path:not([running]) {
+    opacity: 0;
+}
+
+video:not([running]) + svg path[writing] {
+    opacity: 1 !important;
+}
+
+path[running] {
+    opacity: 0;
+
+    stroke-dasharray: var(--stroke-dasharray);
+    stroke-dashoffset: 0;
+
+    animation-name: anim;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+path[writing] {
+    animation-name: anim2;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes anim {
+    0% {
+        opacity: 0;
+        stroke-dashoffset: var(--stroke-dasharray);
+    }
+    1% {
+        opacity: 1;
+    }
+    10% {
+        stroke-dashoffset: 0;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes anim2 {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#control {
+    display: flex;
+    flex-direction: row;
+}
+
+input[type="range"] {
+    outline: none;
+    flex-grow: 1;
+}
+
+
+#option {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(28,28,28,.9);
+    border-radius: 5px;
+    width: 300px;
+    right: 20px;
+    bottom: 10px;
+}
+
+#option:not([show]) {
+    display: none;
+}
+
+#option label {
+    display: flex;
+    color: white;
+}
+
+#option .option-item {
+    display: flex;
+    color: white;
+}
+
+#option label i {
+    margin: auto 0 auto auto;
+}
+
+#monirotring_folder {
+    flex-grow: 1;
+}
+
+input[type="checkbox"].toggle {
+    display: none;
+}
+
+input[type="checkbox"].show {
+    display: none;
+}
+
+input[type="checkbox"]:disabled.toggle ~ i {
+    color: gray;
+}
+
+input[type="checkbox"]:checked.toggle ~ .off {
+    display: none;
+}
+
+input[type="checkbox"]:not(:checked).toggle ~ .on {
+    display: none;
+}
+
+.control_icon {
+    display: flex;
+    width: 24px;
+    justify-content: center;
+    height: 24px;
+    align-items: center;
+}
+
+.control_icon i {
+    color: white;
+}
+
+.control_icon:has(> .show:not(:checked)) {
+    display: none;
+}
+
+input[type=range].volume {
+    transform: rotate(-0.25turn);
+    width: 80px;
+    position: absolute;
+    margin-bottom: 100px;
+}
+
+.volume_area:not(:hover) .volume {
+    display: none
+}
+
+.pen-frame {
+    position: absolute;
+    font-size: 1.1em;
+}
+
+.pen-color {
+    z-index: 1;
+}
+
+#window_width {
+    width: 4em;
+}
+
+#window_height {
+    width: 4em;
+}
+
+.flex_adjuster {
+    flex-grow: 1;
+}

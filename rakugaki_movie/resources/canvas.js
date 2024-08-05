@@ -7,7 +7,8 @@ const option = document.getElementById("option");
 const play_button = document.getElementById("play_button");
 const volume_button = document.getElementById("volume_button");
 const loop_button = document.getElementById("loop_button");
-const speed_button = document.getElementById("speed_button");
+const slow_button = document.getElementById("slow_button");
+const fast_button = document.getElementById("fast_button");
 const monitoring_button = document.getElementById("monitoring_button");
 const fullscreen_button = document.getElementById("fullscreen_button");
 const window_fix_button = document.getElementById("window_fix_button");
@@ -16,7 +17,8 @@ const option_button = document.getElementById("option_button");
 const play_button_show = document.getElementById("play_button_show");
 const volume_button_show = document.getElementById("volume_button_show");
 const loop_button_show = document.getElementById("loop_button_show");
-const speed_button_show = document.getElementById("speed_button_show");
+const slow_button_show = document.getElementById("slow_button_show");
+const fast_button_show = document.getElementById("fast_button_show");
 const monitoring_button_show = document.getElementById("monitoring_button_show");
 const fullscreen_button_show = document.getElementById("fullscreen_button_show");
 const window_fix_button_show = document.getElementById("window_fix_button_show");
@@ -87,8 +89,17 @@ loop_button.addEventListener("click", function () {
 
 var playbackRate = 1;
 
-speed_button.addEventListener("click", function () {
-    playbackRate = speed_button.checked ? 0.5 : 1;
+slow_button.addEventListener("click", function () {
+    fast_button.checked = false;
+    playbackRate = slow_button.checked ? 0.5 : 1;
+
+    video.playbackRate = playbackRate;
+    document.getAnimations().forEach(anim => anim.playbackRate = playbackRate);
+}, false);
+
+fast_button.addEventListener("click", function () {
+    slow_button.checked = false;
+    playbackRate = fast_button.checked ? 2 : 1;
 
     video.playbackRate = playbackRate;
     document.getAnimations().forEach(anim => anim.playbackRate = playbackRate);
@@ -99,9 +110,6 @@ monitoring_button.addEventListener("click", function () {
 }, false);
 
 fullscreen_button.addEventListener("click", function () {
-    window_width.disabled = fullscreen_button.checked;
-    window_height.disabled = fullscreen_button.checked;
-
     window.chrome.webview.postMessage(fullscreen_button.checked ? "fullscreen_on" : "fullscreen_off");
 }, false);
 
@@ -440,8 +448,14 @@ loop_button.addEventListener("click", function () {
     window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);
 });
 
-speed_button.addEventListener("click", function () {
+slow_button.addEventListener("click", function () {
     window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);
+    window.chrome.webview.postMessage(`config,${fast_button.id},${fast_button.checked}`);
+});
+
+fast_button.addEventListener("click", function () {
+    window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);
+    window.chrome.webview.postMessage(`config,${slow_button.id},${slow_button.checked}`);
 });
 
 play_button_show.addEventListener("click", function () {
@@ -456,7 +470,11 @@ loop_button_show.addEventListener("click", function () {
     window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);
 });
 
-speed_button_show.addEventListener("click", function () {
+slow_button_show.addEventListener("click", function () {
+    window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);
+});
+
+fast_button_show.addEventListener("click", function () {
     window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);
 });
 

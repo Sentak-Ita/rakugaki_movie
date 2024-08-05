@@ -32,10 +32,16 @@ namespace rakugaki_movie
         public static bool loop_button { get; set; } = false;
 
         /// <summary>
-        /// 再生速度ボタン設定
+        /// スローボタン設定
         /// </summary>
         /// <remarks>true：スロー再生　false：通常</remarks>
-        public static bool speed_button { get; set; } = false;
+        public static bool slow_button { get; set; } = false;
+
+        /// <summary>
+        /// 倍速ボタン設定
+        /// </summary>
+        /// <remarks>true：倍速再生　false：通常</remarks>
+        public static bool fast_button { get; set; } = false;
 
         /// <summary>
         /// 監視ボタン設定
@@ -76,9 +82,14 @@ namespace rakugaki_movie
         public static bool loop_button_show { get; set; } = true;
 
         /// <summary>
-        /// 再生速度ボタン表示
+        /// スローボタン表示
         /// </summary>
-        public static bool speed_button_show { get; set; } = true;
+        public static bool slow_button_show { get; set; } = true;
+
+        /// <summary>
+        /// 倍速ボタン表示
+        /// </summary>
+        public static bool fast_button_show { get; set; } = true;
 
         /// <summary>
         /// 監視ボタン表示

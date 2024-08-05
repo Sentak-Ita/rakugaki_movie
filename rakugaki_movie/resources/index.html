@@ -53,8 +53,14 @@
                 <i class="fa-duotone fa-solid fa-toggle-on on"></i>
             </label>
             <label class="option-item">
-                <input type="checkbox" id="speed_button_show" name="speed_button_show" class="toggle link" checked />
+                <input type="checkbox" id="slow_button_show" name="slow_button_show" class="toggle link" checked />
                 スロー
+                <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+            </label>
+            <label class="option-item">
+                <input type="checkbox" id="fast_button_show" name="fast_button_show" class="toggle link" checked />
+                倍速
                 <i class="fa-duotone fa-solid fa-toggle-off off"></i>
                 <i class="fa-duotone fa-solid fa-toggle-on on"></i>
             </label>
@@ -110,10 +116,16 @@
             <i class="fa-duotone fa-solid fa-rotate on"></i>
         </label>
         <label class="control_icon">
-            <input type="checkbox" id="speed_button" class="toggle" />
-            <input type="checkbox" name="speed_button_show" class="show" checked />
-            <i class="fa-duotone fa-solid fa-person-running off"></i>
+            <input type="checkbox" id="slow_button" class="toggle" />
+            <input type="checkbox" name="slow_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-person-walking off" style="color: gray;"></i>
             <i class="fa-duotone fa-solid fa-person-walking on"></i>
+        </label>
+        <label class="control_icon">
+            <input type="checkbox" id="fast_button" class="toggle" />
+            <input type="checkbox" name="fast_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-person-running off" style="color: gray;"></i>
+            <i class="fa-duotone fa-solid fa-person-running on"></i>
         </label>
         <label class="control_icon">
             <input type="checkbox" id="monitoring_button" class="toggle" />

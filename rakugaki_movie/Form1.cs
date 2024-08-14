@@ -187,9 +187,13 @@ namespace WinFormsApp1
             {
                 await webView2.ExecuteScriptAsync("loop_button.click();");
             }
-            if (Setting.speed_button)
+            if (Setting.slow_button)
             {
-                await webView2.ExecuteScriptAsync("speed_button.click();");
+                await webView2.ExecuteScriptAsync("slow_button.click();");
+            }
+            if (Setting.fast_button)
+            {
+                await webView2.ExecuteScriptAsync("fast_button.click();");
             }
             if (Setting.monitoring_button)
             {
@@ -207,9 +211,13 @@ namespace WinFormsApp1
             {
                 await webView2.ExecuteScriptAsync("loop_button_show.click();");
             }
-            if (Setting.speed_button_show == false)
+            if (Setting.slow_button_show == false)
             {
-                await webView2.ExecuteScriptAsync("speed_button_show.click();");
+                await webView2.ExecuteScriptAsync("slow_button_show.click();");
+            }
+            if (Setting.fast_button_show == false)
+            {
+                await webView2.ExecuteScriptAsync("fast_button_show.click();");
             }
             if (Setting.monitoring_button_show == false)
             {

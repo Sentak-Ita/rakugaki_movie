@@ -173,6 +173,12 @@ body.addEventListener("keydown", function (e) {
 }, false);
 
 // 通常のドラッグイベント無効
+body.addEventListener("dragstart", function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+}, false);
+
+// 通常のドラッグイベント無効
 body.addEventListener("dragenter", function (e) {
     e.stopPropagation();
     e.preventDefault();

@@ -153,6 +153,10 @@ input[type="checkbox"].toggle {
     display: none;
 }
 
+input[type="checkbox"].dummy {
+    display: none;
+}
+
 input[type="checkbox"].show {
     display: none;
 }
@@ -211,6 +215,10 @@ input[type=range].volume {
 
 #window_height {
     width: 4em;
+}
+
+#rewind_forward_seconds {
+    width: 3em;
 }
 
 .flex_adjuster {

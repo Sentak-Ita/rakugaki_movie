@@ -170,6 +170,7 @@ namespace WinFormsApp1
             await webView2.ExecuteScriptAsync(@$"set_pen_color('{Setting.pen_color}')");
             await webView2.ExecuteScriptAsync(@$"window_width.value = '{this.Width}'");
             await webView2.ExecuteScriptAsync(@$"window_height.value = '{this.Height}'");
+            await webView2.ExecuteScriptAsync(@$"rewind_forward_seconds.value = '{Setting.rewind_forward_seconds}'");
 
             if (Setting.fullscreen_button)
             {
@@ -202,6 +203,14 @@ namespace WinFormsApp1
             if (Setting.play_button_show == false)
             {
                 await webView2.ExecuteScriptAsync("play_button_show.click();");
+            }
+            if (Setting.rewind_button_show == false)
+            {
+                await webView2.ExecuteScriptAsync("rewind_button_show.click();");
+            }
+            if (Setting.forward_button_show == false)
+            {
+                await webView2.ExecuteScriptAsync("forward_button_show.click();");
             }
             if (Setting.volume_button_show == false)
             {

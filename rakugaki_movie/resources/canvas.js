@@ -5,6 +5,8 @@ const range = document.querySelector("input[type='range']");
 const option = document.getElementById("option");
 
 const play_button = document.getElementById("play_button");
+const rewind_button = document.getElementById("rewind_button");
+const forward_button = document.getElementById("forward_button");
 const volume_button = document.getElementById("volume_button");
 const loop_button = document.getElementById("loop_button");
 const slow_button = document.getElementById("slow_button");
@@ -28,6 +30,8 @@ const link_button = document.getElementsByClassName("link");
 
 const monirotring_folder = document.getElementById("monirotring_folder");
 const monirotring_folder_reference = document.getElementById("monirotring_folder_reference");
+
+const rewind_forward_seconds = document.getElementById("rewind_forward_seconds");
 
 const volume_range = document.getElementById("volume_range");
 
@@ -71,6 +75,48 @@ play_button.addEventListener("click", function () {
     } else {
         video.pause();
     }
+}, false);
+
+rewind_button.addEventListener("click", function () {
+    if (video.src === "") {
+        return;
+    }
+
+    if (video.currentTime === 0) {
+        return;
+    }
+
+    let afterValue = Number(range.value) - Number(rewind_forward_seconds.value);
+    let minValue = 0;
+
+    if (afterValue < minValue) {
+        afterValue = minValue;
+    }
+
+    range.value = afterValue;
+    range.dispatchEvent(new Event('input'));
+    range.dispatchEvent(new Event('change'));
+}, false);
+
+forward_button.addEventListener("click", function () {
+    if (video.src === "") {
+        return;
+    }
+
+    if (video.ended) {
+        return;
+    }
+
+    let afterValue = Number(range.value) + Number(rewind_forward_seconds.value);
+    let maxValue = Number(range.getAttribute("max"));
+
+    if (afterValue > maxValue) {
+        afterValue = maxValue;
+    }
+
+    range.value = afterValue;
+    range.dispatchEvent(new Event('input'));
+    range.dispatchEvent(new Event('change'));
 }, false);
 
 volume_button.addEventListener("click", function () {
@@ -135,6 +181,14 @@ body.addEventListener("keydown", function (e) {
     }
 
     switch (e.code) {
+        case "ArrowLeft":
+            rewind_button.dispatchEvent(new Event('click'));
+            break;
+
+        case "ArrowRight":
+            forward_button.dispatchEvent(new Event('click'));
+            break;
+
         case "Space":
             togglePlayPause();
             break;
@@ -436,6 +490,14 @@ function togglePlayPause() {
         video.pause();
     }
 }
+
+rewind_forward_seconds.addEventListener("input", function () {
+    window.chrome.webview.postMessage(`config,${this.id},${this.value}`);
+}, false);
+
+rewind_forward_seconds.addEventListener("change", function () {
+    window.chrome.webview.postMessage(`config,${this.id},${this.value}`);
+}, false);
 
 volume_button.addEventListener("click", function () {
     window.chrome.webview.postMessage(`config,${this.id},${this.checked}`);

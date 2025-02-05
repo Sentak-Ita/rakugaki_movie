@@ -72,6 +72,16 @@ namespace rakugaki_movie
         public static bool play_button_show { get; set; } = true;
 
         /// <summary>
+        /// 早戻しボタン表示
+        /// </summary>
+        public static bool rewind_button_show { get; set; } = true;
+
+        /// <summary>
+        /// 早送りボタン表示
+        /// </summary>
+        public static bool forward_button_show { get; set; } = true;
+
+        /// <summary>
         /// 音量ボタン表示
         /// </summary>
         public static bool volume_button_show { get; set; } = true;
@@ -137,6 +147,11 @@ namespace rakugaki_movie
         /// ウィンドウ固定高さ
         /// </summary>
         public static int window_fix_height { get; set; } = 1080;
+
+        /// <summary>
+        /// 早戻し／早送り秒数
+        /// </summary>
+        public static int rewind_forward_seconds { get; set; } = 3;
 
         /// <summary>
         /// ウィンドウ横位置

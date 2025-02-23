@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+
+    <link rel="stylesheet" type="text/css" href="./canvas.css" />
+    <link rel="stylesheet" type="text/css" href="./fontawesome-free-6.7.2-web/css/all.min.css" />
+
+    <script src="./canvas.js" defer></script>
+</head>
+
+<body>
+    <div class="video-canvas">
+        <div class="video-area">
+            <video autoplay></video>
+            <svg xmlns="http://www.w3.org/2000/svg" draggable="false"></svg>
+        </div>
+
+        <div id="option" class="option-vertical">
+            <div class="option-item">
+                <label>監視</label>
+                <input id="monirotring_folder" readonly>
+                <button id="monirotring_folder_reference">参照</button>
+            </div>
+            <div class="option-item">
+                <label>画面サイズ</label>
+                <span class="flex-adjuster"></span>
+                <input id="window_width" class="config-number" min="0" max="10000" maxlength="5" data-value="" />
+                <label>x</label>
+                <input id="window_height" class="config-number" min="0" max="10000" maxlength="5" data-value="" />
+                <button id="window_size_change">適用</button>
+            </div>
+            <div class="option-item">
+                <label>早戻し／早送り秒数</label>
+                <span class="flex-adjuster"></span>
+                <input id="rewind_forward_seconds" class="config-change-value config-number" min="0" max="100" maxlength="3" data-value="" />
+                <label>秒</label>
+            </div>
+            <div class="option-item">
+                <label>音量増減</label>
+                <span class="flex-adjuster"></span>
+                <input id="volume_range_step" class="config-change-value config-number" min="0" max="100" maxlength="3" data-value="" />
+                <label>％</label>
+            </div>
+            <div class="option-item">
+                <label>スロー倍率</label>
+                <span class="flex-adjuster"></span>
+                <input id="slow_ratio" class="config-change-value config-number" min="25" max="99" maxlength="2" data-value="" />
+                <label>％</label>
+            </div>
+            <div class="option-item">
+                <label>倍速倍率</label>
+                <span class="flex-adjuster"></span>
+                <input id="fast_ratio" class="config-change-value config-number" min="101" max="400" maxlength="3" data-value="" />
+                <label>％</label>
+            </div>
+            <div class="option-item">
+                <label>自動更新チェック</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="auto_update_check" name="auto_update_check" class="toggle link config-change-checked" />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item">
+                <label>ペン色初期化</label>
+                <span class="flex-adjuster"></span>
+                <button id="pen_color_reset">初期化</button>
+            </div>
+            <div class="option-item" data-order-name="play_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>再生／停止</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="play_button_show" name="play_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="rewind_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>早戻し</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="rewind_button_show" name="rewind_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="forward_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>早送り</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="forward_button_show" name="forward_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="seek_bar_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>シークバー</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="seek_bar_show" name="seek_bar_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="current_time_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>再生時間</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="current_time_show" name="current_time_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="volume_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>音量</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="volume_button_show" name="volume_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="loop_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>繰り返し</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="loop_button_show" name="loop_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="slow_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>スロー</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="slow_button_show" name="slow_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="fast_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>倍速</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="fast_button_show" name="fast_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="monitoring_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>監視</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="monitoring_button_show" name="monitoring_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="pen_color_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>ペン</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="pen_color_show" name="pen_color_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="window_fix_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>画面サイズ固定</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="window_fix_button_show" name="window_fix_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="fullscreen_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>フルスクリーン</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="fullscreen_button_show" name="fullscreen_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="fromt_most_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>最前面</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="fromt_most_button_show" name="fromt_most_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="update_notification_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>更新通知</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="update_notification_show" name="update_notification_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+            <div class="option-item" data-order-name="shortcut_order">
+                <button class="order order-up"><i class="fa-duotone fa-solid fa-arrow-up"></i></button>
+                <button class="order order-down"><i class="fa-duotone fa-solid fa-arrow-down"></i></button>
+                <label>ショートカット</label>
+                <span class="flex-adjuster"></span>
+                <label>
+                    <input type="checkbox" id="shortcut_button_show" name="shortcut_button_show" class="toggle link config-change-checked" checked />
+                    <i class="fa-duotone fa-solid fa-toggle-off off"></i>
+                    <i class="fa-duotone fa-solid fa-toggle-on on"></i>
+                </label>
+            </div>
+        </div>
+
+        <div id="shortcut" class="option-vertical">
+            <div class="option-item">
+                <label>再生／停止</label>
+                <span class="flex-adjuster"></span>
+                <input id="play_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>早戻し</label>
+                <span class="flex-adjuster"></span>
+                <input id="rewind_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>早送り</label>
+                <span class="flex-adjuster"></span>
+                <input id="forward_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ミュート</label>
+                <span class="flex-adjuster"></span>
+                <input id="volume_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>音量上げる</label>
+                <span class="flex-adjuster"></span>
+                <input id="volumeup_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>音量下げる</label>
+                <span class="flex-adjuster"></span>
+                <input id="volumedown_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>繰り返し</label>
+                <span class="flex-adjuster"></span>
+                <input id="loop_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>スロー</label>
+                <span class="flex-adjuster"></span>
+                <input id="slow_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>倍速</label>
+                <span class="flex-adjuster"></span>
+                <input id="fast_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>監視</label>
+                <span class="flex-adjuster"></span>
+                <input id="monitoring_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>線削除</label>
+                <span class="flex-adjuster"></span>
+                <input id="delete_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン１</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut1" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン２</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut2" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン３</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut3" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン４</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut4" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン５</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut5" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン６</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut6" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン７</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut7" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン８</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut8" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン９</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut9" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>ペン０</label>
+                <span class="flex-adjuster"></span>
+                <input id="pen_shortcut0" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>画面サイズ固定</label>
+                <span class="flex-adjuster"></span>
+                <input id="window_fix_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>フルスクリーン</label>
+                <span class="flex-adjuster"></span>
+                <input id="fullscreen_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+            <div class="option-item">
+                <label>最前面</label>
+                <span class="flex-adjuster"></span>
+                <input id="fromt_most_shortcut" class="shortcut-input config-change-value" readonly />
+            </div>
+        </div>
+
+        <label id="pen_color_selector" class="option-horizontal" data-selected="">
+            <label class="pen-color-item" data-target="pen_color1">
+                <input type="color" id="pen_color1" class="config-change-value" data-default-color="#000000" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color2">
+                <input type="color" id="pen_color2" class="config-change-value" data-default-color="#FF0000" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color3">
+                <input type="color" id="pen_color3" class="config-change-value" data-default-color="#00FF00" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color4">
+                <input type="color" id="pen_color4" class="config-change-value" data-default-color="#0000FF" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color5">
+                <input type="color" id="pen_color5" class="config-change-value" data-default-color="#FFFF00" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color6">
+                <input type="color" id="pen_color6" class="config-change-value" data-default-color="#FF00FF" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color7">
+                <input type="color" id="pen_color7" class="config-change-value" data-default-color="#00FFFF" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color8">
+                <input type="color" id="pen_color8" class="config-change-value" data-default-color="#FFFFFF" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color9">
+                <input type="color" id="pen_color9" class="config-change-value" data-default-color="#FFFFFF" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+            <label class="pen-color-item" data-target="pen_color0">
+                <input type="color" id="pen_color0" class="config-change-value" data-default-color="#FFFFFF" />
+                <i class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+            </label>
+        </label>
+    </div>
+
+    <div id="control">
+        <label class="control-icon" data-order-name="play_order">
+            <input type="checkbox" id="play_button" class="toggle" />
+            <input type="checkbox" name="play_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-play off"></i>
+            <i class="fa-duotone fa-solid fa-pause on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="rewind_order">
+            <input type="checkbox" id="rewind_button" class="dummy" />
+            <input type="checkbox" name="rewind_button_show" class="show" checked />
+            <i class="fa-rotate-left fa-solid"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="forward_order">
+            <input type="checkbox" id="forward_button" class="dummy" />
+            <input type="checkbox" name="forward_button_show" class="show" checked />
+            <i class="fa-rotate-right fa-solid"></i>
+        </label>
+
+        <label class="seek_bar" data-order-name="seek_bar_order">
+            <input type="checkbox" class="dummy" />
+            <input type="checkbox" name="seek_bar_show" class="show" checked />
+            <input type="range" value="0" disabled>
+        </label>
+
+        <label class="time-area" data-order-name="current_time_order">
+            <input type="checkbox" class="dummy" />
+            <input type="checkbox" name="current_time_show" class="show" checked />
+            <label id="current_time">0:00/0:00</label>
+        </label>
+
+        <label class="control-icon volume-area" data-order-name="volume_order">
+            <input type="checkbox" id="volume_button" class="toggle config-change-checked" />
+            <input type="checkbox" name="volume_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-volume-xmark off"></i>
+            <i class="fa-duotone fa-solid fa-volume-high on"></i>
+
+            <input type="range" id="volume_range" class="volume" min="0" max="100" disabled>
+        </label>
+
+        <label class="control-icon" data-order-name="loop_order">
+            <input type="checkbox" id="loop_button" class="toggle config-change-checked" />
+            <input type="checkbox" name="loop_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-rotate off" style="color: gray;"></i>
+            <i class="fa-duotone fa-solid fa-rotate on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="slow_order">
+            <input type="checkbox" id="slow_button" class="toggle" />
+            <input type="checkbox" name="slow_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-person-walking off" style="color: gray;"></i>
+            <i class="fa-duotone fa-solid fa-person-walking on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="fast_order">
+            <input type="checkbox" id="fast_button" class="toggle" />
+            <input type="checkbox" name="fast_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-person-running off" style="color: gray;"></i>
+            <i class="fa-duotone fa-solid fa-person-running on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="monitoring_order">
+            <input type="checkbox" id="monitoring_button" class="toggle config-change-checked" />
+            <input type="checkbox" name="monitoring_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-eye-slash off"></i>
+            <i class="fa-duotone fa-solid fa-eye on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="pen_color_order">
+            <input type="checkbox" id="pen_color_button" class="toggle" />
+            <input type="checkbox" name="pen_color_show" class="show" checked />
+            <i id="pen-color" class="fa-duotone fa-solid fa-pen pen-color pen-shadow"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="window_fix_order">
+            <input type="checkbox" id="window_fix_button" class="toggle config-change-checked" />
+            <input type="checkbox" name="window_fix_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-lock-open off"></i>
+            <i class="fa-duotone fa-solid fa-lock on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="fullscreen_order">
+            <input type="checkbox" id="fullscreen_button" class="toggle config-change-checked" />
+            <input type="checkbox" name="fullscreen_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-expand off"></i>
+            <i class="fa-duotone fa-solid fa-compress on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="fromt_most_order">
+            <input type="checkbox" id="fromt_most_button" class="toggle config-change-checked" />
+            <input type="checkbox" name="fromt_most_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-thumbtack-slash off"></i>
+            <i class="fa-duotone fa-solid fa-thumbtack on"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="update_notification_order">
+            <input type="checkbox" id="update_notification" class="toggle" data-can-update="false" />
+            <input type="checkbox" name="update_notification_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-download"></i>
+        </label>
+
+        <label class="control-icon" data-order-name="shortcut_order">
+            <input type="checkbox" id="shortcut_button" class="toggle" />
+            <input type="checkbox" name="shortcut_button_show" class="show" checked />
+            <i class="fa-duotone fa-solid fa-keyboard"></i>
+        </label>
+
+        <label class="control-icon">
+            <input type="checkbox" id="option_button" class="toggle" />
+            <i class="fa-duotone fa-solid fa-gear"></i>
+        </label>
+    </div>
+</body>
+
+</html>

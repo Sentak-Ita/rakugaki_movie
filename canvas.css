@@ -1,7 +1,7 @@
-
 * {
     margin: 0;
     padding: 0;
+    font-family: "Courier New", Consolas, monospace;
 }
 
 body {
@@ -12,13 +12,13 @@ body {
     background-color: black;
 }
 
-.video_canvas {
+.video-canvas {
     flex-grow: 1;
     text-align: center;
     position: relative;
 }
 
-.video_canvas div {
+.video-canvas .video-area {
     height: 100%;
     width:fit-content;
     left: 50%;
@@ -26,14 +26,14 @@ body {
     position: absolute;
 }
 
-.video_canvas video {
+.video-canvas video {
     z-index: 2;
     height: 100%;
     vertical-align: bottom;
     --times: var(--time);
 }
 
-.video_canvas svg {
+.video-canvas svg {
     z-index: 3;
     width: 100%;
     height: 100%;
@@ -115,34 +115,90 @@ input[type="range"] {
     flex-grow: 1;
 }
 
+#current_time {
+    color: white;
+    vertical-align: middle;
+    margin-top: 2px;
+}
 
-#option {
+.option-vertical {
     position: absolute;
     display: flex;
     flex-direction: column;
     background-color: rgba(28,28,28,.9);
     border-radius: 5px;
     width: 300px;
-    right: 20px;
-    bottom: 10px;
+    max-height: 300px;
+    overflow-y: scroll;
+    right: 10px;
+    bottom: 5px;
 }
 
-#option:not([show]) {
+.option-vertical::-webkit-scrollbar {
+    background: inherit;
+    width: 5px;
+    border-radius: 20px;
+}
+
+.option-vertical::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+}
+
+.option-vertical:not([show]) {
     display: none;
 }
 
-#option label {
+.option-vertical .option-item {
     display: flex;
     color: white;
 }
 
-#option .option-item {
-    display: flex;
-    color: white;
-}
-
-#option label i {
+.option-vertical .option-item i {
     margin: auto 0 auto auto;
+}
+
+.option-horizontal {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(28,28,28,.9);
+    justify-content: flex-end;
+    border-radius: 5px;
+    right: 10px;
+    bottom: 5px;
+}
+
+.option-horizontal:not([show]) {
+    display: none;
+}
+
+.pen-color-item {
+    display: flex;
+    width: 23px;
+    justify-content: center;
+    height: 23px;
+    align-items: center;
+    margin: 3px 1px 3px 1px;
+}
+
+.pen-color-item i {
+    pointer-events: none;
+}
+
+.pen-color-item > input[type="color"] {
+    border: 0;
+    width: 0;
+    height: 0;
+    background-color: rgba(0,0,0,0);
+}
+
+.pen-color-item:first-child {
+    margin-left: 2px;
+}
+
+.pen-color-item:last-child {
+    margin-right: 2px;
 }
 
 #monirotring_folder {
@@ -173,7 +229,7 @@ input[type="checkbox"]:not(:checked).toggle ~ .on {
     display: none;
 }
 
-.control_icon {
+.control-icon {
     display: flex;
     width: 24px;
     justify-content: center;
@@ -181,11 +237,16 @@ input[type="checkbox"]:not(:checked).toggle ~ .on {
     align-items: center;
 }
 
-.control_icon i {
+.control-icon:last-child {
+    margin-left: auto;
+    order: 999;
+}
+
+.control-icon i {
     color: white;
 }
 
-.control_icon:has(> .show:not(:checked)) {
+.control-icon:has(> .show:not(:checked)) {
     display: none;
 }
 
@@ -196,13 +257,34 @@ input[type=range].volume {
     margin-bottom: 100px;
 }
 
-.volume_area:not(:hover) .volume {
-    display: none
+.seek_bar {
+    display: flex;
+    justify-content: center;
+    height: 24px;
+    align-items: center;
+    color: white;
+    flex-grow: 1;
 }
 
-.pen-frame {
-    position: absolute;
-    font-size: 1.1em;
+.seek_bar:has(> .show:not(:checked)) {
+    display: none;
+}
+
+.time-area {
+    display: flex;
+    justify-content: center;
+    height: 24px;
+    align-items: center;
+    color: white;
+    margin-left: 1px;
+}
+
+.time-area:has(> .show:not(:checked)) {
+    display: none;
+}
+
+.volume-area:not(:hover) .volume {
+    display: none
 }
 
 .pen-color {
@@ -210,17 +292,53 @@ input[type=range].volume {
 }
 
 #window_width {
-    width: 4em;
-}
-
-#window_height {
-    width: 4em;
-}
-
-#rewind_forward_seconds {
     width: 3em;
 }
 
-.flex_adjuster {
+#window_height {
+    width: 3em;
+}
+
+#rewind_forward_seconds {
+    width: 2em;
+}
+
+#volume_range_step {
+    width: 2em;
+}
+
+.flex-adjuster {
     flex-grow: 1;
+}
+
+#slow_ratio {
+    width: 2em;
+}
+
+#fast_ratio {
+    width: 2em;
+}
+
+.order {
+    line-height: 0px;
+}
+
+.order i {
+    line-height: 10px;
+}
+
+.config-number {
+    text-align: right;
+}
+
+button i {
+    pointer-events: none;
+}
+
+.pen-shadow {
+    text-shadow: 0 0 0px #000,0 0 2px #fff,0 0 2px #fff,0 0 2px #fff;
+}
+
+[data-can-update="false"] ~ i {
+    color: gray;
 }

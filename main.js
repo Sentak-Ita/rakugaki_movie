@@ -126,7 +126,6 @@ const createWindow = () => {
             pen_shortcut0.value = "${Setting.pen_shortcut0}"
             window_fix_shortcut.value = "${Setting.window_fix_shortcut}"
             fullscreen_shortcut.value = "${Setting.fullscreen_shortcut}"
-            fromt_most_shortcut.value = "${Setting.fromt_most_shortcut}"
 
             pen_color1.value = "${Setting.pen_color1}"
             pen_color2.value = "${Setting.pen_color2}"
@@ -169,7 +168,6 @@ const createWindow = () => {
             changeIconOrder("pen_color_order", "${Setting.pen_color_order}")
             changeIconOrder("window_fix_order", "${Setting.window_fix_order}")
             changeIconOrder("fullscreen_order", "${Setting.fullscreen_order}")
-            changeIconOrder("fromt_most_order", "${Setting.fromt_most_order}")
             changeIconOrder("update_notification_order", "${Setting.update_notification_order}")
             changeIconOrder("shortcut_order", "${Setting.shortcut_order}")
 
@@ -180,7 +178,6 @@ const createWindow = () => {
             if (${Setting.monitoring_button}) { monitoring_button.click() }
             if (${Setting.window_fix_button}) { window_fix_button.click() }
             if (${Setting.fullscreen_button}) { fullscreen_button.click() }
-            if (${Setting.fromt_most_button}) { fromt_most_button.click() }
 
             if (${Setting.auto_update_check}) { auto_update_check.click() }
 
@@ -197,7 +194,6 @@ const createWindow = () => {
             if (${Setting.pen_color_show == false}) { pen_color_show.click() }
             if (${Setting.window_fix_button_show == false}) { window_fix_button_show.click() }
             if (${Setting.fullscreen_button_show == false}) { fullscreen_button_show.click() }
-            if (${Setting.fromt_most_button_show == false}) { fromt_most_button_show.click() }
             if (${Setting.update_notification_show == false}) { update_notification_show.click() }
             if (${Setting.shortcut_button_show == false}) { shortcut_button_show.click() }
         `);
@@ -299,10 +295,6 @@ ipcMain.on("window_fix_off", async (event, args) => {
 
 ipcMain.on("fullscreen", async (event, args) => {
     window.setFullScreen(!window.isFullScreen())
-});
-
-ipcMain.on("fromt_most", async (event, args) => {
-    window.setAlwaysOnTop(!window.isAlwaysOnTop())
 });
 
 ipcMain.on("check_update", async (event, args) => {

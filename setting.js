@@ -43,12 +43,6 @@ class Setting {
         static fullscreen_button = false;
 
         /**
-         * 最前面ボタン設定 \
-         * true：最前面表示　false：通常表示</remarks>
-         */
-        static fromt_most_button = false;
-
-        /**
          * 監視対象フォルダパス
          */
         static monirotring_folder_reference = "";
@@ -112,11 +106,6 @@ class Setting {
          * フルスクリーンボタン表示
          */
         static fullscreen_button_show = true;
-
-        /**
-         * 最前面ボタン表示
-         */
-        static fromt_most_button_show = true;
 
         /**
          * 画面サイズ固定ボタン表示
@@ -204,19 +193,14 @@ class Setting {
         static fullscreen_order = 13;
 
         /**
-         * 最前面表示順
-         */
-        static fromt_most_order = 14;
-
-        /**
          * 更新通知表示順
          */
-        static update_notification_order = 15;
+        static update_notification_order = 14;
 
         /**
          * ショートカット表示順
          */
-        static shortcut_order = 16;
+        static shortcut_order = 15;
 
         /**
          * ウィンドウ初期表示位置設定済み \
@@ -423,11 +407,6 @@ class Setting {
          * フルスクリーンショートカット
          */
         static fullscreen_shortcut = "";
-
-        /**
-         * 最前面ショートカット
-         */
-        static fromt_most_shortcut = "";
 
         /**
          * ウィンドウ横位置

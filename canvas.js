@@ -19,7 +19,6 @@ const monitoring_button = document.getElementById("monitoring_button");
 const pen_color_button = document.getElementById("pen_color_button");
 const window_fix_button = document.getElementById("window_fix_button");
 const fullscreen_button = document.getElementById("fullscreen_button");
-const fromt_most_button = document.getElementById("fromt_most_button");
 const update_notification = document.getElementById("update_notification");
 const shortcut_button = document.getElementById("shortcut_button");
 const option_button = document.getElementById("option_button");
@@ -47,7 +46,6 @@ const pen_shortcut9 = document.getElementById("pen_shortcut9");
 const pen_shortcut0 = document.getElementById("pen_shortcut0");
 const window_fix_shortcut = document.getElementById("window_fix_shortcut");
 const fullscreen_shortcut = document.getElementById("fullscreen_shortcut");
-const fromt_most_shortcut = document.getElementById("fromt_most_shortcut");
 
 const pen_color_selector = document.getElementById("pen_color_selector");
 const pen_color1 = document.getElementById("pen_color1");
@@ -269,10 +267,6 @@ fullscreen_button.addEventListener("click", function () {
     }
 }, false);
 
-fromt_most_button.addEventListener("click", function () {
-    ipcRenderer.postMessage("fromt_most");
-}, false);
-
 volume_range_step.addEventListener("input", function () {
     volume_range.step = volume_range_step.value;
 });
@@ -430,10 +424,6 @@ function shortcutAction(e) {
 
         case fullscreen_shortcut.value:
             fullscreen_button.click();
-            break;
-
-        case fromt_most_shortcut.value:
-            fromt_most_button.click();
             break;
     }
 }
